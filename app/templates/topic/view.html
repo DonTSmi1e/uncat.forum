@@ -4,13 +4,13 @@
 	<center class="mt-5">
 		<h3>
 			today's topic: {{ topic.title }}
-			{% if not current_user.is_anonymous and topic.topicStarter == current_user.id or current_user.admin >= 1 %} <a href="{{ url_for('topic.Status', id=topic.id) }}"> {% endif %}
+			{% if not current_user.is_anonymous and (topic.topicStarter == current_user.id or current_user.admin >= 1) %} <a href="{{ url_for('topic.Status', id=topic.id) }}"> {% endif %}
 				{% if topic.closed %}
 					<span class="badge text-bg-danger">Closed</span>
 				{% else %}
 					<span class="badge text-bg-success">Open</span>
 				{% endif %}
-			{% if not current_user.is_anonymous and topic.topicStarter == current_user.id or current_user.admin >= 1 %} </a> {% endif %}
+			{% if not current_user.is_anonymous and (topic.topicStarter == current_user.id or current_user.admin >= 1) %} </a> {% endif %}
 		</h3>
 		<h4>author: {{ topicStarter.username }}</h4>
 	</center>
