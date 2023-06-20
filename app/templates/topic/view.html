@@ -16,6 +16,10 @@
 	</center>
 
 	{% if not current_user.is_anonymous and not topic.closed %}
+		<div class="alert alert-warning ms-3 me-3" role="alert">
+			You must write messages in the language in which the topic was created.
+		</div>
+
 		<div class="p-3 mt-3 ms-3 me-3 rounded color-container">
 			<div class="row">
 				<div class="col-1 text-center">
