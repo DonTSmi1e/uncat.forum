@@ -27,8 +27,10 @@
 				{% for line in user.description.split("\n") %}
 					{% if line.startswith("# ") %}
 						<h2>{{ line[2:] }}</h2>
-					{% elif line.startswith("https://") %}
-						<a href="{{ line }}">{{ line }}</a>
+					{% elif line.startswith("[url] ") %}
+						<a href="{{ line[6:] }}">{{ line[6:] }}</a>
+					{% elif line.startswith("[img] ") %}
+                        <br><img src="{{ line[6:] }}" width="512">
 					{% else %}
 						{{ line }}<br>
 					{% endif %}
