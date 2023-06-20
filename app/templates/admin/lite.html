@@ -1,28 +1,59 @@
 {% extends "base.html" %}
 
 {% block content %}
-	<center class="mt-5">
-		<h3>Admin-panel (lite)</h3>
-		<div class="box">
-			<div class="p-3 mt-3 ms-5 me-5 rounded color-container-bright">
-				<form method="POST" action="{{ url_for('admin.Utils', id=1) }}">
-					<button type="submit" class="btn color-container">Clear the database of garbage</button>
-				</form>
-			</div>
-			<div class="p-3 mt-3 ms-5 me-5 rounded color-container-bright">
-				<form method="POST" action="{{ url_for('admin.Utils', id=3) }}">
-					<label class="form-label">Topic ID</label>
-					<input type="text" class="form-control color-bg" name="id" autocomplete="off"><br>
-					<button type="submit" class="btn color-container">Delete topic</button>
-				</form>
-			</div>
-			<div class="p-3 mt-3 ms-5 me-5 rounded color-container-bright">
-				<form method="POST" action="{{ url_for('admin.Utils', id=4) }}">
-					<label class="form-label">User ID</label>
-					<input type="text" class="form-control color-bg" name="id" autocomplete="off"><br>
-					<button type="submit" class="btn color-container">Ban/unban</button>
-				</form>
+	<div class="container-fluid row p-3">
+		<div class="col">
+			<div class="accordion" id="accordion">
+				<div class="accordion-item color-bg">
+					<h2 class="accordion-header">
+						<button class="accordion-button color-bg collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true">
+							Utils
+						</button>
+					</h2>
+					<div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordion">
+						<div class="accordion-body">
+							<form method="POST" action="{{ url_for('admin.Utils', id=1) }}">
+								<button type="submit" class="btn color-container">Clear the database of garbage</button>
+							</form>
+						</div>
+					</div>
+				</div>
+				<div class="accordion-item color-bg">
+					<h2 class="accordion-header">
+						<button class="accordion-button color-bg collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="true">
+							Delete topic
+						</button>
+					</h2>
+					<div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordion">
+						<div class="accordion-body">
+							<form method="POST" action="{{ url_for('admin.Utils', id=3) }}">
+								<label class="form-label">Topic ID</label>
+								<input type="text" class="form-control color-bg" name="id" autocomplete="off"><br>
+								<button type="submit" class="btn color-container">Submit</button>
+							</form>
+						</div>
+					</div>
+				</div>
+				<div class="accordion-item color-bg">
+					<h2 class="accordion-header">
+						<button class="accordion-button color-bg collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="true">
+							Ban / Unban
+						</button>
+					</h2>
+					<div id="collapseFour" class="accordion-collapse collapse" data-bs-parent="#accordion">
+						<div class="accordion-body">
+							<form method="POST" action="{{ url_for('admin.Utils', id=4) }}">
+								<label class="form-label">User ID</label>
+								<input type="text" class="form-control color-bg" name="id" autocomplete="off"><br>
+								<button type="submit" class="btn color-container">Submit</button>
+							</form>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
-	</center>
+		<div class="col">
+
+		</div>
+	</div>
 {% endblock %}
