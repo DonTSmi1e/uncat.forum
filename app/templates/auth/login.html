@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+	<form class="m-5" method="post">
+		<h2>let's log in</h2>
+
+		{% with messages = get_flashed_messages() %}
+			{% if messages %}
+				<div class="alert alert-danger" role="alert">
+					{{ messages[0] }}
+				</div>
+			{% endif %}
+		{% endwith %}
+
+		<div class="mb-3">
+			<label class="form-label">Username</label>
+			<input type="text" autocomplete="username" class="form-control" name="username">
+		</div>
+		<div class="mb-3">
+			<label class="form-label">Password</label>
+			<input type="password" class="form-control" name="password">
+		</div>
+		<div class="mb-3 form-check">
+			<input type="checkbox" class="form-check-input" name="remember">
+			<label class="form-check-label">Remember</label>
+		</div>
+		<button type="submit" class="btn color-container">Log-in</button>
+	</form>
+{% endblock %}

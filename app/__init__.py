@@ -17,16 +17,65 @@
 """
 
 import os
-from flask import Flask
+from flask import Flask, render_template
+from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
+from flask_login import LoginManager
 from dotenv import load_dotenv
+
+db = SQLAlchemy()
+migrate = Migrate()
+loginManager = LoginManager()
 
 def create_app():
     app = Flask(__name__)
 
     load_dotenv()
     app.config['SECRET_KEY'] = os.environ["SECRET_KEY"]
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
 
+    loginManager.login_view = 'auth.Login'
+
+    db.init_app(app)
+    migrate.init_app(app, db)
+    loginManager.init_app(app)
+
+    from . import models
+    from .models import User
+
+    with app.app_context():
+        db.create_all()
+
+    @loginManager.user_loader
+    def load_user(userID):
+        return User.query.get(int(userID))
+
+    @app.errorhandler(404)
+    def error_404(e):
+        return render_template('error/404.html', message="Page not found"), 404
+
+    @app.errorhandler(Exception)
+    def error_500(e):
+        return render_template('error/500.html', message=str(e)), 500
+
+    # Route /
     from .index import index as index_blueprint
     app.register_blueprint(index_blueprint)
+
+    # Route /auth
+    from .auth import auth as auth_blueprint
+    app.register_blueprint(auth_blueprint)
+
+    # Route /profile
+    from .profile import profile as profile_blueprint
+    app.register_blueprint(profile_blueprint)
+
+    # Route /topic
+    from .topic import topic as topic_blueprint
+    app.register_blueprint(topic_blueprint)
+
+    # Route /admin
+    from .admin import admin as admin_blueprint
+    app.register_blueprint(admin_blueprint)
 
     return app

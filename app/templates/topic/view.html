@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% block content %}
+	<center class="mt-5">
+		<h3>
+			today's topic: {{ topic.title }}
+			{% if not current_user.is_anonymous and topic.topicStarter == current_user.id or current_user.admin >= 1 %} <a href="{{ url_for('topic.Status', id=topic.id) }}"> {% endif %}
+				{% if topic.closed %}
+					<span class="badge text-bg-danger">Closed</span>
+				{% else %}
+					<span class="badge text-bg-success">Open</span>
+				{% endif %}
+			{% if not current_user.is_anonymous and topic.topicStarter == current_user.id or current_user.admin >= 1 %} </a> {% endif %}
+		</h3>
+		<h4>author: {{ topicStarter.username }}</h4>
+	</center>
+
+	{% if not current_user.is_anonymous and not topic.closed %}
+		<div class="p-3 mt-3 ms-3 me-3 rounded color-container">
+			<div class="row">
+				<div class="col-1 text-center">
+					<img src="{{ current_user.avatar(64) }}" class="img-thumbnail"><br>
+					{{ current_user.username }}<br>
+					{% if current_user.id == topic.topicStarter %}
+						<span class="badge rounded-pill text-bg-light">TS</span><br>
+					{% endif %}
+					{% if current_user.ban == 1 %}
+						<span class="badge text-bg-warning">Banned</span>
+					{% elif current_user.admin == 0 %}
+						<span class="badge text-bg-secondary">User</span>
+					{% elif current_user.admin == 1 %}
+						<span class="badge text-bg-primary">Moderator</span>
+					{% elif current_user.admin == 2 %}
+						<span class="badge text-bg-danger">Administrator</span>
+					{% elif current_user.admin == 3 %}
+						<span class="badge text-bg-info">Owner</span>
+					{% endif %}
+				</div>
+				<div class="col">
+					<form method="post">
+						<textarea class="form-control color-bg" name="message" rows="3" autocomplete="off"></textarea><br>
+						<button type="submit" class="btn color-container">Post</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	{% endif %}
+
+	{% for message in messages %}
+		<div class="p-3 mt-3 ms-5 me-5 rounded color-container">
+			<div class="row">
+				<div class="col-1 text-center">
+					<a href="{{ url_for('profile.View', id=message[1].id) }}">
+						<img src="{{ message[1].avatar(64) }}" class="img-thumbnail"><br>
+					</a>
+					{{ message[1].username }}<br>
+					{% if message[1].id == topic.topicStarter %}
+						<span class="badge rounded-pill text-bg-light">TS</span><br>
+					{% endif %}
+					{% if message[1].ban == 1 %}
+						<span class="badge text-bg-warning">Banned</span>
+					{% elif message[1].admin == 0 %}
+						<span class="badge text-bg-secondary">User</span>
+					{% elif message[1].admin == 1 %}
+						<span class="badge text-bg-primary">Moderator</span>
+					{% elif message[1].admin == 2 %}
+						<span class="badge text-bg-danger">Administrator</span>
+					{% elif message[1].admin == 3 %}
+						<span class="badge text-bg-info">Owner</span>
+					{% endif %}
+					{% if not current_user.is_anonymous and (current_user.admin > 0 or current_user.id == message[0].authorID) %}
+						<a href="{{ url_for('topic.DelMessage', id=message[0].id) }}" class="btn btn-danger btn-sm mt-3">Delete</a>
+					{% endif %}
+				</div>
+				<div class="col">
+					{% for line in message[0].content.split("\n") %}
+						{{ line }}<br>
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+	{% endfor %}
+{% endblock %}

@@ -1,0 +1,18 @@
+.color-navbar {
+    color: #fff;
+    background-color: #000;
+    border-bottom: 1px solid #30363D
+}
+
+.color-bg {
+    background-color: #0D1117;
+    border-color: #30363D;
+}
+
+.color-container {
+    border: 1px solid #30363D
+}
+
+.color-container-bright {
+    border: 1px solid #50565D
+}

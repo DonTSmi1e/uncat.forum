@@ -1,0 +1,175 @@
+<!-- Welcome modal -->
+<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="welcomeModal" tabindex="-1">
+	<div class="modal-dialog">
+		<div class="modal-content color-bg">
+			<div class="modal-header">
+				<h1 class="modal-title fs-5">uncat.forum</h1>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<h3>Welcome!</h3><hr>
+
+				<h4>Topic management</h4>
+				<p>
+					1. You can close or open your topic by clicking on the badge next to the topic name.<br>
+					2. You can delete your posts, including the start post.<br>
+				</p>
+
+				<h4>Your profile</h4>
+				<p>
+					1. At the beginning of a new line, you can substitute "#" to make the text a heading.<br>
+					Example: # Hello, World!<br>
+					2. You can put a link at the beginning of a new line.<br>
+				</p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn color-container" data-bs-dismiss="modal">Understood</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Ban modal -->
+<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="banModal" tabindex="-1">
+	<div class="modal-dialog">
+		<div class="modal-content color-bg">
+			<div class="modal-header">
+				<h1 class="modal-title fs-5">You have been banned by staff</h1>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<h4>What restrictions are placed on me?</h4>
+				<p>
+					1. You will no longer be able to comment on other people's topics.<br>
+					2. You will not be able to create new topics.<br>
+					3. Your account may be deleted.<br>
+				</p>
+				<h4>What can I do?</h4>
+				<p>
+					Just wait. If ban was not issued by mistake, then you have nothing left.<br>
+				</p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn color-container" data-bs-dismiss="modal">Understood</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Test modal -->
+<div class="modal fade color-container" id="testModal" tabindex="-1">
+	<div class="modal-dialog">
+		<div class="modal-content color-bg">
+			<div class="modal-header">
+				<h1 class="modal-title fs-5">Test modal</h1>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				modal-body
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn color-container" data-bs-dismiss="modal">Button</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Edit profile modal -->
+<div class="modal fade" id="editProfileModal" tabindex="-1">
+	<div class="modal-dialog">
+		<div class="modal-content color-bg">
+			<div class="modal-header">
+				<h1 class="modal-title fs-5">Edit profile description</h1>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<form method="POST" action="{{ url_for('profile.Settings')}}" spellcheck="false">
+					<div class="mb-3">
+						<label for="description" class="form-label">Description:</label>
+						<textarea class="form-control color-bg" name="description" rows="15" autocomplete="off">{{ current_user.description }}</textarea>
+					</div>
+					<button type="submit" class="btn color-container">Confirm</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Create topic modal -->
+<div class="modal fade" id="createTopicModal" tabindex="-1">
+	<div class="modal-dialog">
+		<div class="modal-content color-bg">
+			<div class="modal-header">
+				<h1 class="modal-title fs-5">Create topic</h1>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<form action="{{ url_for('topic.Create') }}" method="post">
+					<div class="mb-3">
+						<label class="form-label">Title</label>
+						<input type="text" class="form-control color-bg" name="title">
+					</div>
+					<div class="mb-3">
+						<label class="form-label">Start message</label>
+						<textarea class="form-control color-bg" name="message" rows="15" autocomplete="off"></textarea>
+					</div>
+					<button type="submit" class="btn color-container">Create</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Login modal -->
+<div class="modal fade" id="loginModal" tabindex="-1">
+	<div class="modal-dialog">
+		<div class="modal-content color-bg">
+			<div class="modal-header">
+				<h1 class="modal-title fs-5">let's log in</h1>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<form method="POST" action="{{ url_for('auth.Login') }}">
+					<div class="mb-3">
+						<label class="form-label">Username</label>
+						<input type="text" autocomplete="username" class="form-control" name="username">
+					</div>
+					<div class="mb-3">
+						<label class="form-label">Password</label>
+						<input type="password" class="form-control" name="password">
+					</div>
+					<div class="mb-3 form-check">
+						<input type="checkbox" class="form-check-input" name="remember">
+						<label class="form-check-label">Remember</label>
+					</div>
+					<button type="submit" class="btn color-container">Log-in</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Signup modal -->
+<div class="modal fade" id="signupModal" tabindex="-1">
+	<div class="modal-dialog">
+		<div class="modal-content color-bg">
+			<div class="modal-header">
+				<h1 class="modal-title fs-5">let's sign up</h1>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<form method="POST" action="{{ url_for('auth.Signup') }}">
+					<div class="mb-3">
+						<label class="form-label">Username</label>
+						<input type="text" autocomplete="username" class="form-control" name="username">
+					</div>
+					<div class="mb-3">
+						<label class="form-label">Password</label>
+						<input type="password" class="form-control" name="password">
+					</div>
+					<button type="submit" class="btn color-container">Sign-up</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+	<div class="container p-3 mt-5 md-5 ms-5 me-5 rounded">
+		<div class="row">
+			<div class="col-3">
+				<img src="{{ user.avatar(512) }}" class="img-thumbnail"><br><br>
+				<h3>{{ user.username }}</h3>
+				{% if user.ban == 1 %}
+					<span class="badge text-bg-warning">Banned</span>
+				{% elif user.admin == 0 %}
+					<span class="badge text-bg-secondary">User</span>
+				{% elif user.admin == 1 %}
+					<span class="badge text-bg-primary">Moderator</span>
+				{% elif user.admin == 2 %}
+					<span class="badge text-bg-danger">Administrator</span>
+				{% elif user.admin == 3 %}
+					<span class="badge text-bg-info">Owner</span>
+				{% endif %}
+
+				{% if not current_user.is_anonymous and current_user.id == user.id %}
+					<br><br>
+					<button class="btn color-container" data-bs-toggle="modal" data-bs-target="#editProfileModal">Edit description</button>
+				{% endif %}
+			</div>
+			<div class="col p-3 rounded color-container">
+				{% for line in user.description.split("\n") %}
+					{% if line.startswith("# ") %}
+						<h2>{{ line[2:] }}</h2>
+					{% elif line.startswith("https://") %}
+						<a href="{{ line }}">{{ line }}</a>
+					{% else %}
+						{{ line }}<br>
+					{% endif %}
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+{% endblock %}

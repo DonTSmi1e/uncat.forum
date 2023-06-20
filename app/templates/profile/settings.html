@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+	<form class="m-5" method="POST" action="{{ url_for('profile.Settings')}}" spellcheck="false">
+		{% with messages = get_flashed_messages() %}
+			{% if messages %}
+				<div class="alert alert-info" role="alert">
+					{{ messages[0] }}
+				</div>
+			{% endif %}
+		{% endwith %}
+		<div class="mb-3">
+			<label for="description" class="form-label">Description:</label>
+			<textarea class="form-control color-bg" name="description" rows="15" autocomplete="off">{{ current_user.description }}</textarea>
+		</div>
+		<button type="submit" class="btn color-container">Confirm</button>
+	</form>
+{% endblock %}

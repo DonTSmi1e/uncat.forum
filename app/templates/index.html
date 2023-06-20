@@ -1,5 +1,56 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>uncat.forum</h1>
+	<div class="container-fluid row p-3">
+		<div class="col">
+			<h3>uncat.forum == uncategorized forum</h3>
+			{% if current_user.is_anonymous %}
+				<button class="btn color-container" data-bs-toggle="modal" data-bs-target="#loginModal">Login</button>
+				<button class="btn color-container" data-bs-toggle="modal" data-bs-target="#signupModal">Signup</button>
+			{% else %}
+				<button class="btn color-container" data-bs-toggle="modal" data-bs-target="#createTopicModal">Create topic</button>
+			{% endif %}
+			<div class="list-group mt-3">			
+				{% for topic in topics %}
+					<a href="{{ url_for('topic.View', id=topic[0].id)}}" class="list-group-item list-group-item-action color-bg" aria-current="true">
+						<div class="d-flex gap-2 w-100 justify-content-between">
+							<h6 class="mb-0">
+								{{ topic[0].title }} <span class="badge bg-dark rounded-pill">{{ topic[1].username }}</span>
+								{% if topic[0].closed %}
+									<span class="badge text-bg-danger">Closed</span>
+								{% else %}
+									<span class="badge text-bg-success">Open</span>
+								{% endif %}
+							</h6>
+						</div>
+					</a>
+				{% endfor %}
+			</div>
+		</div>
+		<div class="col">
+			<h3>registered users:</h3>
+			<div class="list-group">			
+				{% for user in users %}
+					<a href="{{ url_for('profile.View', id=user['id'])}}" class="list-group-item list-group-item-action color-bg" aria-current="true">
+						<div class="d-flex gap-2 w-100 justify-content-between">
+							<h6 class="mb-0">
+								{{ user.username }}
+								{% if user.ban == 1 %}
+									<span class="badge text-bg-warning">Banned</span>
+								{% elif user.admin == 0 %}
+									<span class="badge text-bg-secondary">User</span>
+								{% elif user.admin == 1 %}
+									<span class="badge text-bg-primary">Moderator</span>
+								{% elif user.admin == 2 %}
+									<span class="badge text-bg-danger">Administrator</span>
+								{% elif user.admin == 3 %}
+									<span class="badge text-bg-info">Owner</span>
+								{% endif %}
+							</h6>
+						</div>
+					</a>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
 {% endblock %}

@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+	<form class="m-5" method="post">
+		<h2>let's create topic</h2>
+
+		{% with messages = get_flashed_messages() %}
+			{% if messages %}
+				<div class="alert alert-danger" role="alert">
+					{{ messages[0] }}
+				</div>
+			{% endif %}
+		{% endwith %}
+
+		<div class="mb-3">
+			<label class="form-label">Title</label>
+			<input type="text" class="form-control color-bg" name="title">
+		</div>
+		<div class="mb-3">
+			<label class="form-label">Start message</label>
+			<textarea class="form-control color-bg" name="message" rows="15" autocomplete="off"></textarea>
+		</div>
+		<button type="submit" class="btn color-container">Create</button>
+	</form>
+{% endblock %}
