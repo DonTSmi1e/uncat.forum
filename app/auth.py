@@ -39,7 +39,7 @@ def Login():
             return redirect(url_for('auth.Login'))
 
         login_user(user, remember=remember)
-        return redirect(url_for("profile.View", id=user.id) + "?showmodal=banModal")
+        return redirect(url_for("profile.View", id=user.id) + ("?showmodal=welcomeModal" if user.ban else ""))
     else:
         return render_template("auth/login.html")
 
@@ -49,7 +49,9 @@ def Signup():
         username = request.form.get('username')
         password = request.form.get('password')
 
-        if (username == None or password == None) or (username.replace(" ", "") == "" or password.replace(" ", "") == ""):
+        check_1 = username is None or password is None
+        check_2 = username.replace(" ", "") == "" or password.replace(" ", "") == ""
+        if check_1 or check_2:
             flash("Username or password is empty")
             return redirect(url_for('auth.Signup'))
         
@@ -66,7 +68,11 @@ def Signup():
             flash('This username already registered')
             return redirect(url_for('auth.Signup'))
 
-        new_user = User(username=username, password=generate_password_hash(password, method='sha256'), description="New account", admin=0, ban=0)
+        new_user = User(username=username,
+                        password=generate_password_hash(password, method='sha256'),
+                        description="New account",
+                        admin=0,
+                        ban=0)
 
         db.session.add(new_user)
         db.session.commit()
@@ -77,7 +83,7 @@ def Signup():
             db.session.commit()
 
         login_user(User.query.filter_by(username=username).first(), remember=False)
-        return redirect(url_for("profile.View", id=user.id) + "?showmodal=welcomeModal")
+        return redirect(url_for("profile.View", id=user.id) + "?showmodal=welcomeModal" if user.ban else "")
     else:
         return render_template('auth/signup.html')
 
