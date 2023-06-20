@@ -18,7 +18,6 @@
 
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from flask_login import login_required, current_user
-from sqlalchemy import desc
 
 from .models import User
 from . import db
@@ -36,7 +35,7 @@ def View(id):
     if user:
         return render_template('profile/profile.html', user=user)
     else:
-        return render_template('error/404.html', message="Профиль не найден.")
+        return render_template('error/404.html', message="Profile not found")
 
 @profile.route('/profile/settings', methods=['GET', 'POST'])
 @login_required
