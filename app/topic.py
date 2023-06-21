@@ -111,6 +111,23 @@ def DeleteMessage(id):
     else:
         return redirect(url_for("index.Index"))
 
+@topic.route('/topic/utils/editmessage/<int:id>', methods=["GET", "POST"])
+@login_required
+def EditMessage(id):
+    message = Message.query.filter_by(id=id).first()
+    if message:
+        if request.method == "POST":
+            topicID = message.topicID
+            newContent = request.form.get("content")
+            if current_user.id == message.authorID:
+                message.content = newContent
+                db.session.commit()
+            return redirect(url_for("topic.View", id=topicID))
+        else:
+            return render_template("topic/edit.html", messageID=id, content=message.content)
+    else:
+        return redirect(url_for("index.Index"))
+
 @topic.route('/topic/utils/closetopic/<int:id>')
 @login_required
 def CloseTopic(id):

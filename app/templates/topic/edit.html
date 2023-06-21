@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+	<form class="m-5" method="post">
+		<h2>let's edit message</h2>
+
+		{% with messages = get_flashed_messages() %}
+			{% if messages %}
+				<div class="alert alert-danger" role="alert">
+					{{ messages[0] }}
+				</div>
+			{% endif %}
+		{% endwith %}
+
+		<div action="{{ url_for('topic.EditMessage', id=messageID) }}" class="mb-3">
+			<label class="form-label">Content:</label>
+			<textarea class="form-control color-bg" name="content" rows="15" autocomplete="off">{{ content }}</textarea>
+		</div>
+		<button type="submit" class="btn color-container">Create</button>
+	</form>
+{% endblock %}
