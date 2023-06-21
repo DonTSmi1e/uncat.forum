@@ -31,11 +31,14 @@ def View(id):
     topic = Topic.query.filter_by(id=id).first()
     if topic:
         if request.method == "POST":
-            if not topic.closed:
+            if not topic.closed and not current_user.ban:
                 message = request.form.get("message")
 
                 startMessage = Message(topicID=topic.id, authorID=current_user.id, content=message)
                 db.session.add(startMessage)
+                db.session.commit()
+
+                current_user.points += 1
                 db.session.commit()
 
             return redirect(url_for("topic.View", id=topic.id))
@@ -85,6 +88,9 @@ def Create():
             db.session.add(startMessage)
             db.session.commit()
 
+            current_user.points += 10
+            db.session.commit()
+
             return redirect(url_for('topic.View', id=topic.id))
         else:
             flash('You have been banned')
@@ -94,7 +100,7 @@ def Create():
 
 @topic.route('/topic/utils/delmessage/<int:id>')
 @login_required
-def DelMessage(id):
+def DeleteMessage(id):
     message = Message.query.filter_by(id=id).first()
     if message:
         topicID = message.topicID
@@ -105,13 +111,14 @@ def DelMessage(id):
     else:
         return redirect(url_for("index.Index"))
 
-@topic.route('/topic/utils/changestatus/<int:id>')
+@topic.route('/topic/utils/closetopic/<int:id>')
 @login_required
-def Status(id):
+def CloseTopic(id):
     topic = Topic.query.filter_by(id=id).first()
     if topic:
-        if current_user.admin > 0 or current_user.id == topic.topicStarter:
-            topic.closed = 0 if topic.closed else 1
+        if (current_user.admin > 0 or current_user.id == topic.topicStarter) and topic.closed == 0:
+            topic.closed = 1
+            current_user.points += 2
             db.session.commit()
         return redirect(url_for("topic.View", id=id))
     else:
