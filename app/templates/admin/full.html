@@ -84,6 +84,24 @@
 						</div>
 					</div>
 				</div>
+				<div class="accordion-item color-bg">
+					<h2 class="accordion-header">
+						<button class="accordion-button color-bg collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSix" aria-expanded="true">
+							Issue points to user
+						</button>
+					</h2>
+					<div id="collapseSix" class="accordion-collapse collapse" data-bs-parent="#accordion">
+						<div class="accordion-body">
+							<form method="POST" action="{{ url_for('admin.Utils', id=7) }}">
+								<label class="form-label">User ID</label>
+								<input type="text" class="form-control color-bg" name="id" autocomplete="off"><br>
+								<label class="form-label">Points</label>
+								<input type="text" class="form-control color-bg" name="points" autocomplete="off"><br>
+								<button type="submit" class="btn color-container">Submit</button>
+							</form>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 		<div class="col">
