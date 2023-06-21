@@ -1,16 +1,18 @@
+{% from "import/macros.html" import badge %}
+
 {% extends "base.html" %}
 
 {% block content %}
 	<center class="mt-5">
 		<h3>
 			today's topic: {{ topic.title }}
-			{% if not current_user.is_anonymous and (topic.topicStarter == current_user.id or current_user.admin >= 1) %} <a href="{{ url_for('topic.Status', id=topic.id) }}"> {% endif %}
-				{% if topic.closed %}
-					<span class="badge text-bg-danger">Closed</span>
-				{% else %}
+			{% if topic.closed %}
+				<span class="badge text-bg-danger">Closed</span>
+			{% else %}
+				{% if not current_user.is_anonymous and (topic.topicStarter == current_user.id or current_user.admin >= 1) and not topic.closed %} <a href="{{ url_for('topic.CloseTopic', id=topic.id) }}"> {% endif %}
 					<span class="badge text-bg-success">Open</span>
-				{% endif %}
-			{% if not current_user.is_anonymous and (topic.topicStarter == current_user.id or current_user.admin >= 1) %} </a> {% endif %}
+				{% if not current_user.is_anonymous and (topic.topicStarter == current_user.id or current_user.admin >= 1) and not topic.closed %} </a> {% endif %}
+			{% endif %}
 		</h3>
 		<h4>author: {{ topicStarter.username }}</h4>
 	</center>
@@ -23,22 +25,12 @@
 		<div class="p-3 mt-3 ms-3 me-3 rounded color-container">
 			<div class="row">
 				<div class="col-1 text-center">
-					<img src="{{ current_user.avatar(64) }}" class="img-thumbnail"><br>
+					<img src="{{ current_user.avatar(64) }}" width="64" height="64" class="img-thumbnail"><br>
 					{{ current_user.username }}<br>
 					{% if current_user.id == topic.topicStarter %}
 						<span class="badge rounded-pill text-bg-light">TS</span><br>
 					{% endif %}
-					{% if current_user.ban == 1 %}
-						<span class="badge text-bg-warning">Banned</span>
-					{% elif current_user.admin == 0 %}
-						<span class="badge text-bg-secondary">User</span>
-					{% elif current_user.admin == 1 %}
-						<span class="badge text-bg-primary">Moderator</span>
-					{% elif current_user.admin == 2 %}
-						<span class="badge text-bg-danger">Administrator</span>
-					{% elif current_user.admin == 3 %}
-						<span class="badge text-bg-info">Owner</span>
-					{% endif %}
+					{{ badge(current_user) }}
 				</div>
 				<div class="col">
 					<form method="post">
@@ -55,31 +47,23 @@
 			<div class="row">
 				<div class="col-1 text-center">
 					<a href="{{ url_for('profile.View', id=message[1].id) }}">
-						<img src="{{ message[1].avatar(64) }}" class="img-thumbnail"><br>
+						<img src="{{ message[1].avatar(64) }}" width="64" height="64" class="img-thumbnail"><br>
 					</a>
 					{{ message[1].username }}<br>
 					{% if message[1].id == topic.topicStarter %}
 						<span class="badge rounded-pill text-bg-light">TS</span><br>
 					{% endif %}
-					{% if message[1].ban == 1 %}
-						<span class="badge text-bg-warning">Banned</span>
-					{% elif message[1].admin == 0 %}
-						<span class="badge text-bg-secondary">User</span>
-					{% elif message[1].admin == 1 %}
-						<span class="badge text-bg-primary">Moderator</span>
-					{% elif message[1].admin == 2 %}
-						<span class="badge text-bg-danger">Administrator</span>
-					{% elif message[1].admin == 3 %}
-						<span class="badge text-bg-info">Owner</span>
-					{% endif %}
-					{% if not current_user.is_anonymous and (current_user.admin > 0 or current_user.id == message[0].authorID) %}
-						<a href="{{ url_for('topic.DelMessage', id=message[0].id) }}" class="btn btn-danger btn-sm mt-3">Delete</a>
-					{% endif %}
+					{{ badge(message[1]) }}
+					<span class="badge">{{ message[1].points }}</span>
 				</div>
 				<div class="col">
 					{% for line in message[0].content.split("\n") %}
 						{{ line }}<br>
 					{% endfor %}
+					<hr>
+					{% if not current_user.is_anonymous and (current_user.admin > 0 or current_user.id == message[0].authorID) %}
+						<a href="{{ url_for('topic.DeleteMessage', id=message[0].id) }}" class="btn color-container btn-sm">Delete</a>
+					{% endif %}
 				</div>
 			</div>
 		</div>

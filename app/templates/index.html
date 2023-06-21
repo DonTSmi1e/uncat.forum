@@ -1,3 +1,5 @@
+{% from "import/macros.html" import badge %}
+
 {% extends "base.html" %}
 
 {% block content %}
@@ -10,43 +12,60 @@
 			{% else %}
 				<button class="btn color-container" data-bs-toggle="modal" data-bs-target="#createTopicModal">Create topic</button>
 			{% endif %}
-			<div class="list-group mt-3">			
-				{% for topic in topics %}
-					<a href="{{ url_for('topic.View', id=topic[0].id)}}" class="list-group-item list-group-item-action color-bg" aria-current="true">
-						<div class="d-flex gap-2 w-100 justify-content-between">
-							<h6 class="mb-0">
-								{{ topic[0].title }} <span class="badge bg-dark rounded-pill">{{ topic[1].username }}</span>
-								{% if topic[0].closed %}
-									<span class="badge text-bg-danger">Closed</span>
-								{% else %}
-									<span class="badge text-bg-success">Open</span>
-								{% endif %}
-							</h6>
-						</div>
-					</a>
-				{% endfor %}
+
+			<ul class="nav nav-underline mt-3" role="tablist">
+				<li class="nav-item">
+					<button class="nav-link text-light active" data-bs-toggle="tab" data-bs-target="#open-topics" type="button" role="tab">Open</button>
+				</li>
+				<li class="nav-item">
+					<button class="nav-link text-light" data-bs-toggle="tab" data-bs-target="#closed-topics" type="button" role="tab">Closed</button>
+				</li>
+			</ul>
+			<div class="tab-content mt-2">
+				<div class="tab-pane fade show active" id="open-topics" role="tabpanel">
+					<div class="list-group list-group-flush">
+						{% for topic in topics %}
+							{% if not topic[0].closed %}
+								<a href="{{ url_for('topic.View', id=topic[0].id)}}" class="list-group-item list-group-item-action color-bg" aria-current="true">
+									<div class="d-flex gap-2 w-100 justify-content-between">
+										<h6 class="mb-0">
+											{{ topic[0].title }} <span class="badge bg-dark rounded-pill">{{ topic[1].username }}</span>
+											<span class="badge text-bg-success">Open</span>
+										</h6>
+									</div>
+								</a>
+							{% endif %}
+						{% endfor %}
+					</div>
+				</div>
+				<div class="tab-pane fade" id="closed-topics" role="tabpanel">
+					<div class="list-group list-group-flush">
+						{% for topic in topics %}
+							{% if topic[0].closed %}
+								<a href="{{ url_for('topic.View', id=topic[0].id)}}" class="list-group-item list-group-item-action color-bg" aria-current="true">
+									<div class="d-flex gap-2 w-100 justify-content-between">
+										<h6 class="mb-0">
+											{{ topic[0].title }} <span class="badge bg-dark rounded-pill">{{ topic[1].username }}</span>
+											<span class="badge text-bg-danger">Closed</span>
+										</h6>
+									</div>
+								</a>
+							{% endif %}
+						{% endfor %}
+					</div>
+				</div>
 			</div>
 		</div>
 		<div class="col">
 			<h3>registered users:</h3>
-			<div class="list-group">			
+			<div class="list-group list-group-flush">			
 				{% for user in users %}
 					<a href="{{ url_for('profile.View', id=user['id'])}}" class="list-group-item list-group-item-action color-bg" aria-current="true">
 						<div class="d-flex gap-2 w-100 justify-content-between">
 							<h6 class="mb-0">
-								<img src="{{ user.avatar(24) }}">
+								<img src="{{ user.avatar(24) }}" width="24" height="24">
 								{{ user.username }}
-								{% if user.ban == 1 %}
-									<span class="badge text-bg-warning">Banned</span>
-								{% elif user.admin == 0 %}
-									<span class="badge text-bg-secondary">User</span>
-								{% elif user.admin == 1 %}
-									<span class="badge text-bg-primary">Moderator</span>
-								{% elif user.admin == 2 %}
-									<span class="badge text-bg-danger">Administrator</span>
-								{% elif user.admin == 3 %}
-									<span class="badge text-bg-info">Owner</span>
-								{% endif %}
+								{{ badge(user) }}
 							</h6>
 						</div>
 					</a>
