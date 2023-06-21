@@ -59,7 +59,7 @@
 				</div>
 				<div class="col">
 					{% for line in message[0].content.split("\n") %}
-						{{ parse(line, user) }}
+						{{ parse(line, message[1]) }}
 					{% endfor %}
 					<hr>
 					{% if not current_user.is_anonymous and (current_user.admin > 0 or current_user.id == message[0].authorID) %}
