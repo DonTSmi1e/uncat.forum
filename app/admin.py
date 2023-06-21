@@ -23,6 +23,7 @@ def Index():
 def Utils(id):
     if request.method == "POST" and current_user.ban != 1:
         if id == 1 and current_user.admin >= 1:
+            users = User.query.all()
             messages = Message.query.all()
             topics = Topic.query.all()
             for message in messages:
@@ -31,6 +32,9 @@ def Utils(id):
             for topic in topics:
                 if not User.query.filter_by(id=topic.topicStarter).first():
                     Topic.query.filter_by(id=topic.id).delete()
+            for user in users:
+                if user.points is None:
+                    user.points = 0
             db.session.commit()
         elif id == 2 and current_user.admin >= 2:
             User.query.filter_by(id=int(request.form.get("id"))).delete()
@@ -56,6 +60,10 @@ def Utils(id):
             if user and current_user.admin >= 3:
                 current_user.admin = 2
                 user.admin = 3
+            db.session.commit()
+        elif id == 7 and current_user.admin >= 2:
+            user = User.query.filter_by(id=int(request.form.get("id"))).first()
+            user.points += int(request.form.get("points"))
             db.session.commit()
 
         return redirect(url_for('admin.Index'))

@@ -46,13 +46,14 @@ def Login():
 @auth.route("/auth/signup", methods=["GET", "POST"])
 def Signup():
     if request.method == 'POST':
+        email = request.form.get('email')
         username = request.form.get('username')
         password = request.form.get('password')
 
-        check_1 = username is None or password is None
-        check_2 = username.replace(" ", "") == "" or password.replace(" ", "") == ""
+        check_1 = email is None or username is None or password is None
+        check_2 = email.replace(" ", "") == "" or username.replace(" ", "") == "" or password.replace(" ", "") == ""
         if check_1 or check_2:
-            flash("Username or password is empty")
+            flash("Email, username or password is empty")
             return redirect(url_for('auth.Signup'))
         
         if len(username) > 30+1:
@@ -62,17 +63,20 @@ def Signup():
             flash('Password max length - 50')
             return redirect(url_for('auth.Signup'))
 
-        user = User.query.filter_by(username=username).first()
+        user_email = User.query.filter_by(email=email).first()
+        user_username = User.query.filter_by(username=username).first()
 
-        if user:
-            flash('This username already registered')
+        if user_email or user_username:
+            flash('This email or username already registered')
             return redirect(url_for('auth.Signup'))
 
-        new_user = User(username=username,
+        new_user = User(email=email,
+                        username=username,
                         password=generate_password_hash(password, method='sha256'),
                         description="New account",
                         admin=0,
-                        ban=0)
+                        ban=0,
+                        points=0)
 
         db.session.add(new_user)
         db.session.commit()

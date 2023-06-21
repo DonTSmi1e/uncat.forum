@@ -37,9 +37,9 @@ def View(id):
     else:
         return render_template('error/404.html', message="Profile not found")
 
-@profile.route('/profile/settings', methods=['GET', 'POST'])
+@profile.route('/profile/settings/description', methods=['GET', 'POST'])
 @login_required
-def Settings():
+def SettingsDescription():
     if request.method == 'POST':
         new_description = request.form.get('description')
         if len(new_description) > 600+1:
@@ -49,3 +49,24 @@ def Settings():
             db.session.commit()
             return redirect(url_for("profile.View", id=current_user.id))
     return render_template('profile/settings.html')
+
+@profile.route('/profile/settings/email', methods=['GET', 'POST'])
+@login_required
+def SettingsEmail():
+    if request.method == 'POST':
+        email = request.form.get('email')
+
+        if email.replace(" ", "") == "":
+            flash("Email is empty")
+            return redirect(url_for("profile.SettingsEmail"))
+
+        user = User.query.filter_by(email=email).first()
+        if user:
+            flash("This email already used by someone")
+            return redirect(url_for("profile.SettingsEmail"))
+
+        current_user.email = email
+        db.session.commit()
+
+        return redirect(url_for("profile.View", id=current_user.id))
+    return render_template('profile/email.html')

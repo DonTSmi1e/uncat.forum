@@ -21,26 +21,32 @@ from flask_login import UserMixin
 from . import db
 
 class User(UserMixin, db.Model):
-	id = db.Column(db.Integer, primary_key=True)
-	username = db.Column(db.String(30), unique=True)
-	password = db.Column(db.String(50))
-	description = db.Column(db.String(200))
-	admin = db.Column(db.Integer)
-	ban = db.Column(db.Integer)
+    id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(255), unique=True)
+    username = db.Column(db.String(30), unique=True)
+    password = db.Column(db.String(50))
+    description = db.Column(db.String(200))
+    admin = db.Column(db.Integer)
+    ban = db.Column(db.Integer)
+    points = db.Column(db.Integer)
 
-	def avatar(self, size):
-		digest = md5(self.username.encode('utf-8')).hexdigest()
-		return f"https://www.gravatar.com/avatar/{digest}?d=identicon&s={size}"
+    def avatar(self, size):
+        default = "mp"
+        digest = ""
+        if self.points//100 > 0:
+            default = "retro"
+            digest = md5(self.email.encode('utf-8')).hexdigest()
+        return f"https://www.gravatar.com/avatar/{digest}?d={default}&s={size}"
 
 class Topic(db.Model):
-	id = db.Column(db.Integer, primary_key=True)
-	topicStarter = db.Column(db.Integer)
-	title = db.Column(db.String(30))
-	closed = db.Column(db.Integer)
-	active = db.Column(db.DateTime)
+    id = db.Column(db.Integer, primary_key=True)
+    topicStarter = db.Column(db.Integer)
+    title = db.Column(db.String(30))
+    closed = db.Column(db.Integer)
+    active = db.Column(db.DateTime)
 
 class Message(db.Model):
-	id = db.Column(db.Integer, primary_key=True)
-	topicID = db.Column(db.Integer)
-	authorID = db.Column(db.Integer)
-	content = db.Column(db.String(100))
+    id = db.Column(db.Integer, primary_key=True)
+    topicID = db.Column(db.Integer)
+    authorID = db.Column(db.Integer)
+    content = db.Column(db.String(100))
