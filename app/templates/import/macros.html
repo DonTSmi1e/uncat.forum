@@ -1,0 +1,13 @@
+{% macro badge(user) -%} <!-- User badge -->
+	{% if user.ban == 1 %}
+		<span class="badge text-bg-warning">Banned</span>
+	{% elif user.admin == 0 %}
+		<span class="badge text-bg-secondary">User</span>
+	{% elif user.admin == 1 %}
+		<span class="badge text-bg-primary">Moderator</span>
+	{% elif user.admin == 2 %}
+		<span class="badge text-bg-danger">Administrator</span>
+	{% elif user.admin == 3 %}
+		<span class="badge text-bg-info">Owner</span>
+	{% endif %}
+{%- endmacro %}
