@@ -19,10 +19,6 @@
 				<p>
 					1. At the beginning of a new line, you can substitute <code># </code> to make text a heading.<br>
 					Example: <code># Hello, World!</code><br>
-					2. At the beginning of a new line, you can substitute <code>[url] </code> to make text a link.<br>
-					Example: <code>[url] https://youtube.com</code><br>
-					3. At the beginning of a new line, you can substitute <code>[img] </code> to make link an image.<br>
-					Example: <code>[img] https://example.com/image.png</code><br>
 				</p>
 			</div>
 			<div class="modal-footer">
@@ -46,10 +42,6 @@
 					1. You will no longer be able to comment on other people's topics.<br>
 					2. You will not be able to create new topics.<br>
 					3. Your account may be deleted.<br>
-				</p>
-				<h4>What can I do?</h4>
-				<p>
-					Just wait. If ban was not issued by mistake, then you have nothing left.<br>
 				</p>
 			</div>
 			<div class="modal-footer">
@@ -86,7 +78,7 @@
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
 			<div class="modal-body">
-				<form method="POST" action="{{ url_for('profile.Settings')}}" spellcheck="false">
+				<form method="POST" action="{{ url_for('profile.SettingsDescription')}}" spellcheck="false">
 					<div class="mb-3">
 						<label for="description" class="form-label">Description:</label>
 						<textarea class="form-control color-bg" name="description" rows="15" autocomplete="off">{{ current_user.description }}</textarea>
@@ -94,6 +86,25 @@
 					<button type="submit" class="btn color-container">Confirm</button>
 				</form>
 			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Edit email modal -->
+<div class="modal fade" id="editEmailModal" tabindex="-1">
+	<div class="modal-dialog">
+		<div class="modal-content color-bg">
+			<div class="modal-header">
+				<h1 class="modal-title fs-5">Edit profile Email</h1>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<form class="m-5" method="POST" action="{{ url_for('profile.SettingsEmail')}}" spellcheck="false">
+				<div class="mb-3">
+					<label for="description" class="form-label">Email:</label>
+					<input class="form-control color-bg" type="email" name="email">Current Email: {{ current_user.email }}</input>
+				</div>
+				<button type="submit" class="btn color-container">Confirm</button>
+			</form>
 		</div>
 	</div>
 </div>
@@ -163,6 +174,10 @@
 			<div class="modal-body">
 				<form method="POST" action="{{ url_for('auth.Signup') }}">
 					<div class="mb-3">
+						<label class="form-label">Email address</label>
+						<input type="email" autocomplete="username" class="form-control" name="email">
+					</div>
+					<div class="mb-3">
 						<label class="form-label">Username</label>
 						<input type="text" autocomplete="username" class="form-control" name="username">
 					</div>
@@ -172,6 +187,36 @@
 					</div>
 					<button type="submit" class="btn color-container">Sign-up</button>
 				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Level 1 Modal -->
+<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="level1Modal" tabindex="-1">
+	<div class="modal-dialog">
+		<div class="modal-content color-bg">
+			<div class="modal-header">
+				<h1 class="modal-title fs-5">uncat.forum</h1>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<h3>Level 1 features</h3><hr>
+
+				<h4>Your profile</h4>
+				<p>
+					<code>(Avatar)</code><br>
+					1. You will have an avatar loaded from Gravatar (depending on Email).<br>
+					<hr>
+					<code>(Description)</code><br>
+					2. At the beginning of a new line, you can substitute <code>[url] </code> to make text a link.<br>
+					Example: <code>[url] https://youtube.com</code><br>
+					3. At the beginning of a new line, you can substitute <code>[img] </code> to make link an image.<br>
+					Example: <code>[img] https://example.com/image.png</code><br>
+				</p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn color-container" data-bs-dismiss="modal">Understood</button>
 			</div>
 		</div>
 	</div>
