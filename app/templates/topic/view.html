@@ -1,4 +1,4 @@
-{% from "import/macros.html" import badge %}
+{% from "import/macros.html" import badge, parse %}
 
 {% extends "base.html" %}
 
@@ -54,15 +54,19 @@
 						<span class="badge rounded-pill text-bg-light">TS</span><br>
 					{% endif %}
 					{{ badge(message[1]) }}
+					<br>
 					<span class="badge">{{ message[1].points }}</span>
 				</div>
 				<div class="col">
 					{% for line in message[0].content.split("\n") %}
-						{{ line }}<br>
+						{{ parse(line, user) }}
 					{% endfor %}
 					<hr>
 					{% if not current_user.is_anonymous and (current_user.admin > 0 or current_user.id == message[0].authorID) %}
 						<a href="{{ url_for('topic.DeleteMessage', id=message[0].id) }}" class="btn color-container btn-sm">Delete</a>
+					{% endif %}
+					{% if not current_user.is_anonymous and current_user.id == message[0].authorID %}
+						<a href="{{ url_for('topic.EditMessage', id=message[0].id) }}" class="btn color-container btn-sm">Edit</a>
 					{% endif %}
 				</div>
 			</div>
