@@ -11,3 +11,15 @@
 		<span class="badge text-bg-info">Owner</span>
 	{% endif %}
 {%- endmacro %}
+
+{% macro parse(line, user) -%} <!-- Parse markdown -->
+	{% if line.startswith("# ") %}
+		<h2>{{ line[2:] }}</h2>
+	{% elif line.startswith("[url] ") and user.points//100 > 0 %}
+		<a href="{{ line[6:] }}">{{ line[6:] }}</a>
+	{% elif line.startswith("[img] ") and user.points//100 > 0 %}
+		<br><img src="{{ line[6:] }}" width="256">
+	{% else %}
+		{{ line }}<br>
+	{% endif %}
+{%- endmacro %}
