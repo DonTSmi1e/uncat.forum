@@ -32,10 +32,8 @@ class User(UserMixin, db.Model):
 
     def avatar(self, size):
         default = "mp"
-        digest = ""
-        if self.points//100 > 0:
-            default = "retro"
-            digest = md5(self.email.encode('utf-8')).hexdigest()
+        default = "identicon"
+        digest = md5(self.email.encode('utf-8')).hexdigest()
         return f"https://www.gravatar.com/avatar/{digest}?d={default}&s={size}"
 
 class Topic(db.Model):
