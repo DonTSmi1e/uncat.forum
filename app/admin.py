@@ -18,6 +18,18 @@ def Index():
     else:
         return abort(404)
 
+@admin.route("/admin/ban/<int:id>")
+@login_required
+def BanUser(id):
+    if current_user.admin >= 1:
+        user = User.query.filter_by(id=id).first()
+        if user and user.ban == 1 and current_user.admin > user.admin:
+            user.ban = 0
+        elif user and user.ban == 0 and current_user.admin > user.admin:
+            user.ban = 1
+        db.session.commit()
+    return redirect(url_for("profile.View", id=id))
+
 @admin.route('/admin/utils/<int:id>', methods=['POST'])
 @login_required
 def Utils(id):
@@ -38,10 +50,6 @@ def Utils(id):
             db.session.commit()
         elif id == 2 and current_user.admin >= 2:
             User.query.filter_by(id=int(request.form.get("id"))).delete()
-            db.session.commit()
-        elif id == 3 and current_user.admin >= 1:
-            Topic.query.filter_by(id=int(request.form.get("id"))).delete()
-            Message.query.filter_by(topicID=int(request.form.get("id"))).delete()
             db.session.commit()
         elif id == 4 and current_user.admin >= 1:
             user = User.query.filter_by(id=int(request.form.get("id"))).first()
