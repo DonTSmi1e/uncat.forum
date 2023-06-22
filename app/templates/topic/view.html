@@ -9,9 +9,7 @@
 			{% if topic.closed %}
 				<span class="badge text-bg-danger">Closed</span>
 			{% else %}
-				{% if not current_user.is_anonymous and (topic.topicStarter == current_user.id or current_user.admin >= 1) and not topic.closed %} <a href="{{ url_for('topic.CloseTopic', id=topic.id) }}"> {% endif %}
-					<span class="badge text-bg-success">Open</span>
-				{% if not current_user.is_anonymous and (topic.topicStarter == current_user.id or current_user.admin >= 1) and not topic.closed %} </a> {% endif %}
+				<span class="badge text-bg-success">Open</span>
 			{% endif %}
 		</h3>
 		<h4>author: {{ topicStarter.username }}</h4>

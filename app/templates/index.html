@@ -6,14 +6,7 @@
 	<div class="container-fluid row p-3">
 		<div class="col">
 			<h3>uncat.forum == uncategorized forum</h3>
-			{% if current_user.is_anonymous %}
-				<button class="btn color-container" data-bs-toggle="modal" data-bs-target="#loginModal">Login</button>
-				<button class="btn color-container" data-bs-toggle="modal" data-bs-target="#signupModal">Signup</button>
-			{% else %}
-				<button class="btn color-container" data-bs-toggle="modal" data-bs-target="#createTopicModal">Create topic</button>
-			{% endif %}
-
-			<ul class="nav nav-underline mt-3" role="tablist">
+			<ul class="nav nav-justified nav-underline" role="tablist">
 				<li class="nav-item">
 					<button class="nav-link text-light active" data-bs-toggle="tab" data-bs-target="#open-topics" type="button" role="tab">Open</button>
 				</li>
