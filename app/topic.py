@@ -140,3 +140,17 @@ def CloseTopic(id):
         return redirect(url_for("topic.View", id=id))
     else:
         return redirect(url_for("index.Index"))
+
+@topic.route('/topic/utils/deltopic/<int:id>')
+@login_required
+def DeleteTopic(id):
+    topic = Topic.query.filter_by(id=id).first()
+    if topic:
+        if current_user.admin >= 1 or current_user.id == topic.topicStarter:
+            messages = Message.query.filter_by(topicID=topic.id)
+            for message in messages:
+                Message.query.filter_by(id=message.id).delete()
+
+            Topic.query.filter_by(id=id).delete()
+            db.session.commit()
+    return redirect(url_for("index.Index"))
