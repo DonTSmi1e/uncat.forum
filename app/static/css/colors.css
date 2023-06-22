@@ -1,7 +1,13 @@
-.color-navbar {
+.color-navbar-top {
     color: #fff;
     background-color: #000;
     border-bottom: 1px solid #30363D
+}
+
+.color-navbar-bottom {
+    color: #fff;
+    background-color: #000;
+    border-top: 1px solid #30363D;
 }
 
 .color-bg {
