@@ -29,6 +29,7 @@ loginManager = LoginManager()
 
 def create_app():
     app = Flask(__name__)
+    app.url_map.strict_slashes = False
 
     load_dotenv()
     app.config['SECRET_KEY'] = os.environ["SECRET_KEY"]
@@ -53,10 +54,6 @@ def create_app():
     @app.errorhandler(404)
     def error_404(e):
         return render_template('error/404.html', message="Page not found"), 404
-
-    @app.errorhandler(Exception)
-    def error_500(e):
-        return render_template('error/500.html', message=str(e)), 500
 
     # Route /
     from .index import index as index_blueprint
