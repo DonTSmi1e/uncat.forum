@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block content %}
+	<div class="container-fluid row p-3">
+		<div class="col">
+			<div class="accordion" id="accordion">
+				<div class="accordion-item color-bg">
+					<h2 class="accordion-header">
+						<button class="accordion-button color-bg collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true">
+							Utils
+						</button>
+					</h2>
+					<div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordion">
+						<div class="accordion-body">
+							<form method="POST" action="{{ url_for('admin.FixDB') }}">
+								<button type="submit" class="btn color-container">Fix database</button>
+							</form>
+						</div>
+					</div>
+				</div>
+				<div class="accordion-item color-bg">
+					<h2 class="accordion-header">
+						<button class="accordion-button color-bg collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSix" aria-expanded="true">
+							Issue points to user
+						</button>
+					</h2>
+					<div id="collapseSix" class="accordion-collapse collapse" data-bs-parent="#accordion">
+						<div class="accordion-body">
+							<form method="POST" action="{{ url_for('admin.GivePoints') }}">
+								<label class="form-label">User ID</label>
+								<input type="text" class="form-control color-bg" name="id" autocomplete="off"><br>
+								<label class="form-label">Points</label>
+								<input type="text" class="form-control color-bg" name="points" autocomplete="off"><br>
+								<button type="submit" class="btn color-container">Submit</button>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col">
+			{% if current_user.admin >= 3 %}
+				<div class="p-3 rounded color-container">
+					<br><h4 class="text-danger">Danger zone</h4><hr>
+					<div class="alert alert-danger">
+						These actions are irreversible, keep in mind.
+					</div>
+					<form method="POST" action="{{ url_for('admin.TransferOwnership') }}">
+						<label class="form-label">User ID</label>
+						<input type="text" class="form-control color-bg" name="id" autocomplete="off"><br>
+						<button type="submit" class="btn color-container">Transfer owner rights</button>
+					</form><br>
+				</div>
+			{% endif %}
+		</div>
+	</div>
+{% endblock %}
