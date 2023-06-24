@@ -8,14 +8,6 @@
 			</div>
 			<div class="modal-body">
 				<h3>Welcome!</h3><hr>
-
-				<h4>Topic management</h4>
-				<p>
-					1. You can close or open your topic by clicking on the badge next to the topic name.<br>
-					2. You can delete your posts, including the start post.<br>
-				</p>
-
-				<h4>Markdown</h4>
 				<p>
 					1. At the beginning of a new line, you can substitute <code># </code> to make text a heading.<br>
 					Example: <code># Hello, World!</code><br>
@@ -132,64 +124,6 @@
 						<textarea class="form-control color-bg" name="message" rows="15" autocomplete="off"></textarea>
 					</div>
 					<button type="submit" class="btn color-container">Create</button>
-				</form>
-			</div>
-		</div>
-	</div>
-</div>
-
-<!-- Login modal -->
-<div class="modal fade" id="loginModal" tabindex="-1">
-	<div class="modal-dialog">
-		<div class="modal-content color-bg">
-			<div class="modal-header">
-				<h1 class="modal-title fs-5">let's log in</h1>
-				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-			</div>
-			<div class="modal-body">
-				<form method="POST" action="{{ url_for('auth.Login') }}">
-					<div class="mb-3">
-						<label class="form-label">Username</label>
-						<input type="text" autocomplete="username" class="form-control" name="username">
-					</div>
-					<div class="mb-3">
-						<label class="form-label">Password</label>
-						<input type="password" class="form-control" name="password">
-					</div>
-					<div class="mb-3 form-check">
-						<input type="checkbox" class="form-check-input" name="remember">
-						<label class="form-check-label">Remember</label>
-					</div>
-					<button type="submit" class="btn color-container">Log-in</button>
-				</form>
-			</div>
-		</div>
-	</div>
-</div>
-
-<!-- Signup modal -->
-<div class="modal fade" id="signupModal" tabindex="-1">
-	<div class="modal-dialog">
-		<div class="modal-content color-bg">
-			<div class="modal-header">
-				<h1 class="modal-title fs-5">let's sign up</h1>
-				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-			</div>
-			<div class="modal-body">
-				<form method="POST" action="{{ url_for('auth.Signup') }}">
-					<div class="mb-3">
-						<label class="form-label">Email address</label>
-						<input type="email" autocomplete="username" class="form-control" name="email">
-					</div>
-					<div class="mb-3">
-						<label class="form-label">Username</label>
-						<input type="text" autocomplete="username" class="form-control" name="username">
-					</div>
-					<div class="mb-3">
-						<label class="form-label">Password</label>
-						<input type="password" class="form-control" name="password">
-					</div>
-					<button type="submit" class="btn color-container">Sign-up</button>
 				</form>
 			</div>
 		</div>
