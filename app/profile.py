@@ -30,6 +30,7 @@ def Index():
     return redirect(url_for("profile.View", id=current_user.id))
 
 @profile.route('/profile/<int:id>')
+@login_required
 def View(id):
     user = User.query.filter_by(id=id).first()
     if user:

@@ -17,6 +17,7 @@
 """
 
 from flask import Blueprint, render_template
+from flask_login import login_required
 from sqlalchemy import desc
 from .models import User
 from .models import Topic
@@ -24,6 +25,7 @@ from .models import Topic
 index = Blueprint('index', __name__)
 
 @index.route('/')
+@login_required
 def Index():
     topics_raw = Topic.query.order_by(Topic.closed, desc(Topic.active)).all()
     topics = []

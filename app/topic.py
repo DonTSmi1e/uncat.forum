@@ -27,6 +27,7 @@ from . import db
 topic = Blueprint('topic', __name__)
 
 @topic.route('/topic/<int:id>', methods=['GET', 'POST'])
+@login_required
 def View(id):
     topic = Topic.query.filter_by(id=id).first()
     if topic:

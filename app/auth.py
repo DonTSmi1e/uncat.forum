@@ -17,13 +17,20 @@
 """
 
 from flask import Blueprint, render_template, request, flash, redirect, url_for
-from flask_login import login_user, logout_user
+from flask_login import login_user, logout_user, login_required, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from .models import User
 from . import db
 
 auth = Blueprint("auth", __name__)
+
+@auth.route("/auth")
+def Index():
+    if current_user.is_anonymous:
+        return render_template("auth/index.html")
+    else:
+        return redirect(url_for("profile.Index"))
 
 @auth.route("/auth/login", methods=["GET", "POST"])
 def Login():
@@ -36,12 +43,12 @@ def Login():
 
         if not user or not check_password_hash(user.password, password):
             flash("Invalid username or password")
-            return redirect(url_for('auth.Login'))
+            return redirect(url_for('auth.Index'))
 
         login_user(user, remember=remember)
-        return redirect(url_for("profile.View", id=user.id) + ("?showmodal=welcomeModal" if user.ban else ""))
+        return redirect(url_for("index.Index") + ("?showmodal=banModal" if user.ban else ""))
     else:
-        return render_template("auth/login.html")
+        return redirect(url_for("auth.Index"))
 
 @auth.route("/auth/signup", methods=["GET", "POST"])
 def Signup():
@@ -54,21 +61,24 @@ def Signup():
         check_2 = email.replace(" ", "") == "" or username.replace(" ", "") == "" or password.replace(" ", "") == ""
         if check_1 or check_2:
             flash("Email, username or password is empty")
-            return redirect(url_for('auth.Signup'))
+            return redirect(url_for('auth.Index'))
         
         if len(username) > 30+1:
             flash('Username max length - 30')
-            return redirect(url_for('auth.Signup'))
+            return redirect(url_for('auth.Index'))
         elif len(password) > 50+1:
             flash('Password max length - 50')
-            return redirect(url_for('auth.Signup'))
+            return redirect(url_for('auth.Index'))
 
         user_email = User.query.filter_by(email=email).first()
         user_username = User.query.filter_by(username=username).first()
 
-        if user_email or user_username:
-            flash('This email or username already registered')
-            return redirect(url_for('auth.Signup'))
+        if user_email:
+            flash('This email already registered')
+            return redirect(url_for('auth.Index'))
+        elif user_username:
+            flash('This username already registered')
+            return redirect(url_for('auth.Index'))
 
         new_user = User(email=email,
                         username=username,
@@ -87,11 +97,12 @@ def Signup():
             db.session.commit()
 
         login_user(User.query.filter_by(username=username).first(), remember=False)
-        return redirect(url_for("profile.View", id=user.id) + "?showmodal=welcomeModal" if user.ban else "")
+        return redirect(url_for("profile.View", id=user.id) + "?showmodal=welcomeModal")
     else:
-        return render_template('auth/signup.html')
+        return redirect(url_for("index.Index"))
 
 @auth.route("/auth/logout")
+@login_required
 def Logout():
     logout_user()
-    return redirect(url_for("index.Index"))
+    return redirect(url_for("auth.Index"))
