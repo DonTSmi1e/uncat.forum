@@ -17,8 +17,11 @@
 """
 
 from hashlib import md5
+
 from flask_login import UserMixin
+
 from . import db
+
 
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -48,3 +51,10 @@ class Message(db.Model):
     topicID = db.Column(db.Integer)
     authorID = db.Column(db.Integer)
     content = db.Column(db.String(100))
+
+class Log(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    category = db.Column(db.String(255))
+    author = db.Column(db.Integer)
+    action = db.Column(db.String(255))
+    time = db.Column(db.DateTime)
