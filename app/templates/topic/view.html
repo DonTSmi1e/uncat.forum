@@ -20,9 +20,9 @@
 			You must write messages in the language in which the topic was created.
 		</div>
 
-		<div class="p-3 mt-3 ms-3 me-3 rounded color-container">
+		<div class="p-3 mt-3 md-3 rounded color-container">
 			<div class="row">
-				<div class="col-1 text-center">
+				<div class="col-sm-1 mt-3 text-center">
 					<img src="{{ current_user.avatar(64) }}" width="64" height="64" class="img-thumbnail"><br>
 					{{ current_user.username }}<br>
 					{% if current_user.id == topic.topicStarter %}
@@ -30,7 +30,7 @@
 					{% endif %}
 					{{ badge(current_user) }}
 				</div>
-				<div class="col">
+				<div class="col-sm mt-3">
 					<form method="post">
 						<textarea class="form-control color-bg" name="message" rows="3" autocomplete="off"></textarea><br>
 						<button type="submit" class="btn color-container">Post</button>
@@ -41,9 +41,9 @@
 	{% endif %}
 
 	{% for message in messages %}
-		<div class="p-3 mt-3 ms-5 me-5 rounded color-container">
+		<div class="p-3 mt-3 rounded color-container">
 			<div class="row">
-				<div class="col-1 text-center">
+				<div class="col-sm-1 mt-3 text-center">
 					<a href="{{ url_for('profile.View', id=message[1].id) }}">
 						<img src="{{ message[1].avatar(64) }}" width="64" height="64" class="img-thumbnail"><br>
 					</a>
@@ -55,7 +55,7 @@
 					<br>
 					<span class="badge">{{ message[1].points }}</span>
 				</div>
-				<div class="col">
+				<div class="col-sm mt-3">
 					{% for line in message[0].content.split("\n") %}
 						{{ parse(line, message[1]) }}
 					{% endfor %}

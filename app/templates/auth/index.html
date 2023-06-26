@@ -2,13 +2,13 @@
 
 {% block content %}
 	<div class="container-fluid row p-3">
-		<div class="col">
+		<div class="col-sm mt-3">
 			<h1 class="display-3">let's join us</h1>
 			<h1 class="display-6">
 				of course you have no reason to do it.<br>
 				it might be better if you never come back here.</h1>
 		</div>
-		<div class="col">
+		<div class="col-sm mt-3">
 			{% with messages = get_flashed_messages() %}
 				{% if messages %}
 					<div class="alert alert-danger" role="alert">

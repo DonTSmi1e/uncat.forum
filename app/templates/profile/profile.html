@@ -3,9 +3,9 @@
 {% extends "base.html" %}
 
 {% block content %}
-	<div class="container p-3 mt-5 md-5 ms-5 me-5 rounded">
+	<div class="container mt-5 md-5 rounded">
 		<div class="row">
-			<div class="col-3">
+			<div class="col-sm-3 mt-3">
 				{% if not current_user.is_anonymous and current_user.id == user.id %} <a href="https://ru.gravatar.com/emails/"> {% endif %}
 					<img src="{{ user.avatar(512) }}" width="512" height="512" class="img-thumbnail">
 				 {% if not current_user.is_anonymous and current_user.id == user.id %} </a> {% endif %}
@@ -22,7 +22,7 @@
 					<div class="progress-bar color-bg" style="width: {{ user.points%100 }}%">{{ user.points }}</div>
 				</div>
 			</div>
-			<div class="col p-3 rounded color-container">
+			<div class="col-sm mt-3 p-3 rounded color-container">
 				{% for line in user.description.split("\n") %}
 					{{ parse(line, user) }}
 				{% endfor %}
