@@ -17,12 +17,12 @@
 """
 
 import datetime
-from flask import Blueprint, render_template, request, redirect, flash, url_for
+
+from flask import Blueprint, flash, redirect, render_template, request, url_for
 from flask_login import current_user, login_required
-from .models import User
-from .models import Topic
-from .models import Message
+
 from . import db
+from .models import Message, Topic, User
 
 topic = Blueprint('topic', __name__)
 
@@ -54,6 +54,33 @@ def View(id):
             return render_template("topic/view.html", topic=topic, topicStarter=topicStarter, messages=messages)
     else:
         return render_template('error/404.html', message="This topic does not exists")
+
+@topic.route("/topic/<int:id>/close")
+@login_required
+def CloseTopic(id):
+    topic = Topic.query.filter_by(id=id).first()
+    if topic:
+        if (current_user.admin > 0 or current_user.id == topic.topicStarter) and topic.closed == 0:
+            topic.closed = 1
+            current_user.points += 2
+            db.session.commit()
+        return redirect(url_for("topic.View", id=id))
+    else:
+        return redirect(url_for("index.Index"))
+
+@topic.route("/topic/<int:id>/delete")
+@login_required
+def DeleteTopic(id):
+    topic = Topic.query.filter_by(id=id).first()
+    if topic:
+        if current_user.admin >= 1 or current_user.id == topic.topicStarter:
+            messages = Message.query.filter_by(topicID=topic.id)
+            for message in messages:
+                Message.query.filter_by(id=message.id).delete()
+
+            Topic.query.filter_by(id=id).delete()
+            db.session.commit()
+    return redirect(url_for("index.Index"))
 
 @topic.route('/topic/create', methods=['GET', 'POST'])
 @login_required
@@ -99,7 +126,7 @@ def Create():
     else:
         return render_template('topic/create.html', title=request.args.get('title'), content=request.args.get('content'))
 
-@topic.route('/topic/utils/delmessage/<int:id>')
+@topic.route("/topic/message/<int:id>/delete")
 @login_required
 def DeleteMessage(id):
     message = Message.query.filter_by(id=id).first()
@@ -112,7 +139,7 @@ def DeleteMessage(id):
     else:
         return redirect(url_for("index.Index"))
 
-@topic.route('/topic/utils/editmessage/<int:id>', methods=["GET", "POST"])
+@topic.route("/topic/message/<int:id>/edit", methods=["GET", "POST"])
 @login_required
 def EditMessage(id):
     message = Message.query.filter_by(id=id).first()
@@ -128,30 +155,3 @@ def EditMessage(id):
             return render_template("topic/edit.html", messageID=id, content=message.content)
     else:
         return redirect(url_for("index.Index"))
-
-@topic.route('/topic/utils/closetopic/<int:id>')
-@login_required
-def CloseTopic(id):
-    topic = Topic.query.filter_by(id=id).first()
-    if topic:
-        if (current_user.admin > 0 or current_user.id == topic.topicStarter) and topic.closed == 0:
-            topic.closed = 1
-            current_user.points += 2
-            db.session.commit()
-        return redirect(url_for("topic.View", id=id))
-    else:
-        return redirect(url_for("index.Index"))
-
-@topic.route('/topic/utils/deltopic/<int:id>')
-@login_required
-def DeleteTopic(id):
-    topic = Topic.query.filter_by(id=id).first()
-    if topic:
-        if current_user.admin >= 1 or current_user.id == topic.topicStarter:
-            messages = Message.query.filter_by(topicID=topic.id)
-            for message in messages:
-                Message.query.filter_by(id=message.id).delete()
-
-            Topic.query.filter_by(id=id).delete()
-            db.session.commit()
-    return redirect(url_for("index.Index"))
