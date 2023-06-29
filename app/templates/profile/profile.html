@@ -6,13 +6,22 @@
 	<div class="container mt-5 md-5 rounded">
 		<div class="row">
 			<div class="col-sm-3 mt-3">
-				{% if not current_user.is_anonymous and current_user.id == user.id %} <a href="https://ru.gravatar.com/emails/"> {% endif %}
+				{% if current_user.id == user.id %} <a href="https://ru.gravatar.com/emails/"> {% endif %}
 					<img src="{{ user.avatar(512) }}" width="512" height="512" class="img-thumbnail">
-				 {% if not current_user.is_anonymous and current_user.id == user.id %} </a> {% endif %}
+				{% if current_user.id == user.id %} </a> {% endif %}
 				<br><br>
-				<h3>{{ user.username }}</h3>
+				{% if user.displayname == None %}
+					{% if current_user.id == user.id %} <a class="link-secondary link-underline-opacity-0" data-bs-toggle="modal" data-bs-target="#editDisplaynameModal"> {% endif %}
+						<h3 class="display-6">{{ user.getName() }}</h3>
+					{% if current_user.id == user.id %} </a> {% endif %}
+				{% else %}
+					{% if current_user.id == user.id %} <a class="link-secondary link-underline-opacity-0" data-bs-toggle="modal" data-bs-target="#editDisplaynameModal"> {% endif %}
+						<h3 class="display-6">{{ user.getName() }}</h3>
+					{% if current_user.id == user.id %} </a> {% endif %}
+					<h4>{{ user.username }}</h4>
+				{% endif %}
 				{% if not current_user.is_anonymous and current_user.id == user.id %}
-					<p><a class="link-secondary link-underline-opacity-0" data-bs-toggle="modal" data-bs-target="#editEmailModal">{{ user.email if user.email != "" else "Change E-Mail" }}</a></p>
+					<p><a class="link-dark link-underline-opacity-0" data-bs-toggle="modal" data-bs-target="#editEmailModal">{{ user.email if user.email != "" else "Change E-Mail" }}</a></p>
 				{% endif %}
 				{{ badge(user) }}
 				<hr>

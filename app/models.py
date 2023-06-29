@@ -26,6 +26,7 @@ from . import db
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(255), unique=True)
+    displayname = db.Column(db.String(255))
     username = db.Column(db.String(30), unique=True)
     password = db.Column(db.String(50))
     description = db.Column(db.String(200))
@@ -33,9 +34,13 @@ class User(UserMixin, db.Model):
     ban = db.Column(db.Integer)
     points = db.Column(db.Integer)
 
+    def getName(self):
+        if self.displayname is None:
+            return self.username
+        return self.displayname
+
     def avatar(self, size):
-        default = "mp"
-        default = "identicon"
+        default = "monsterid"
         digest = md5(self.email.encode('utf-8')).hexdigest()
         return f"https://www.gravatar.com/avatar/{digest}?d={default}&s={size}"
 

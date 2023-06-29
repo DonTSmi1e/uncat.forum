@@ -12,7 +12,7 @@
 				<span class="badge text-bg-success">Open</span>
 			{% endif %}
 		</h3>
-		<h4>author: {{ topicStarter.username }}</h4>
+		<h4>author: {{ topicStarter.getName() }}</h4>
 	</center>
 
 	{% if not current_user.is_anonymous and not topic.closed %}
@@ -24,7 +24,7 @@
 			<div class="row">
 				<div class="col-sm-1 mt-3 text-center">
 					<img src="{{ current_user.avatar(64) }}" width="64" height="64" class="img-thumbnail"><br>
-					{{ current_user.username }}<br>
+					{{ current_user.getName() }}<br>
 					{% if current_user.id == topic.topicStarter %}
 						<span class="badge rounded-pill text-bg-light">TS</span><br>
 					{% endif %}
@@ -47,7 +47,7 @@
 					<a href="{{ url_for('profile.View', id=message[1].id) }}">
 						<img src="{{ message[1].avatar(64) }}" width="64" height="64" class="img-thumbnail"><br>
 					</a>
-					{{ message[1].username }}<br>
+					{{ message[1].getName() }}<br>
 					{% if message[1].id == topic.topicStarter %}
 						<span class="badge rounded-pill text-bg-light">TS</span><br>
 					{% endif %}

@@ -71,3 +71,19 @@ def SettingsEmail():
 
         return redirect(url_for("profile.View", id=current_user.id))
     return render_template('profile/email.html')
+
+@profile.route('/profile/settings/displayname', methods=['GET', 'POST'])
+@login_required
+def SettingsDisplayname():
+    if request.method == 'POST':
+        displayname = request.form.get('displayname')
+
+        if displayname.replace(" ", "") == "":
+            current_user.displayname = None
+            db.session.commit()
+        else:
+            current_user.displayname = displayname
+            db.session.commit()
+
+        return redirect(url_for("profile.View", id=current_user.id))
+    return render_template('profile/displayname.html')

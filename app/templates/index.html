@@ -22,7 +22,7 @@
 								<a href="{{ url_for('topic.View', id=topic[0].id)}}" class="list-group-item list-group-item-action color-bg" aria-current="true">
 									<div class="d-flex gap-2 w-100 justify-content-between">
 										<h6 class="mb-0">
-											{{ topic[0].title }} <span class="badge bg-dark rounded-pill">{{ topic[1].username }}</span>
+											{{ topic[0].title }} <span class="badge bg-dark rounded-pill">{{ topic[1].getName() }}</span>
 											<span class="badge text-bg-success">Open</span>
 										</h6>
 									</div>
@@ -38,7 +38,7 @@
 								<a href="{{ url_for('topic.View', id=topic[0].id)}}" class="list-group-item list-group-item-action color-bg" aria-current="true">
 									<div class="d-flex gap-2 w-100 justify-content-between">
 										<h6 class="mb-0">
-											{{ topic[0].title }} <span class="badge bg-dark rounded-pill">{{ topic[1].username }}</span>
+											{{ topic[0].title }} <span class="badge bg-dark rounded-pill">{{ topic[1].getName() }}</span>
 											<span class="badge text-bg-danger">Closed</span>
 										</h6>
 									</div>
@@ -57,7 +57,7 @@
 						<div class="d-flex gap-2 w-100 justify-content-between">
 							<h6 class="mb-0">
 								<img src="{{ user.avatar(24) }}" width="24" height="24">
-								{{ user.username }}
+								{{ user.getName() }}
 								{{ badge(user) }}
 							</h6>
 						</div>

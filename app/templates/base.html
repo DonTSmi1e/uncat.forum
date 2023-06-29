@@ -32,7 +32,7 @@
 						<ul class="navbar-nav nav-underline me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
 							<li class="nav-item dropdown">
 								<a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-									<b>{{ current_user.username }}</b>
+									<b>{{ current_user.getName() }}</b>
 								</a>
 								<ul class="dropdown-menu color-bg">
 									{% if current_user.ban %}
@@ -43,6 +43,7 @@
 										<li><a class="dropdown-item" href="{{ url_for('admin.Index') }}">Admin-panel</a></li>
 									{% endif %}
 									<li><hr class="dropdown-divider"></li>
+									<li><button type="button" class="dropdown-item text-primary" data-bs-toggle="modal" data-bs-target="#lastUpdatesModal">Last updates</button></li>
 									<li><a class="dropdown-item text-danger" href="{{ url_for('auth.Logout') }}">Logout</a></li>
 								</ul>
 							</li>

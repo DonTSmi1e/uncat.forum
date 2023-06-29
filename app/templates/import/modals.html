@@ -1,3 +1,34 @@
+<!-- Ban modal -->
+<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="lastUpdatesModal" tabindex="-1">
+	<div class="modal-dialog">
+		<div class="modal-content color-bg">
+			<div class="modal-header">
+				<h1 class="modal-title fs-5">Update 29.06.2023</h1>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<h4>Added</h4>
+				<p>
+					• Display name support to every account<br>
+					• "Last updates" modal<br>
+				</p>
+				<h4>Changed</h4>
+				<p>
+					• Default avatars to <code>monsterid</code>
+				</p>
+				<h4>Most important thing...</h4>
+				<p>
+					uncat.forum is open-source project and its source available at github.<br>
+					<a href="https://github.com/dontsmi1e/uncat.forum">here)</a>
+				</p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn color-container" data-bs-dismiss="modal">Understood</button>
+			</div>
+		</div>
+	</div>
+</div>
+
 <!-- Welcome modal -->
 <div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="welcomeModal" tabindex="-1">
 	<div class="modal-dialog">
@@ -98,6 +129,25 @@
 				<div class="mb-3">
 					<label for="description" class="form-label">Email:</label>
 					<input class="form-control color-bg" type="email" name="email">Current Email: {{ current_user.email }}</input>
+				</div>
+				<button type="submit" class="btn color-container">Confirm</button>
+			</form>
+		</div>
+	</div>
+</div>
+
+<!-- Edit display name modal -->
+<div class="modal fade" id="editDisplaynameModal" tabindex="-1">
+	<div class="modal-dialog">
+		<div class="modal-content color-bg">
+			<div class="modal-header">
+				<h1 class="modal-title fs-5">Edit display name</h1>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<form class="m-5" method="POST" action="{{ url_for('profile.SettingsDisplayname')}}" spellcheck="false">
+				<div class="mb-3">
+					<label for="description" class="form-label">Display name:</label>
+					<input class="form-control color-bg" name="displayname">Current display name: {{ current_user.displayname }}</input>
 				</div>
 				<button type="submit" class="btn color-container">Confirm</button>
 			</form>
